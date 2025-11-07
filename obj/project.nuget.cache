@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ilXZn2Px/9w=",
+  "dgSpecHash": "KjqxFcsNsDc=",
   "success": true,
-  "projectFilePath": "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
+  "projectFilePath": "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maxi0\\.nuget\\packages\\microsoft.data.sqlite\\9.0.10\\microsoft.data.sqlite.9.0.10.nupkg.sha512",
     "C:\\Users\\maxi0\\.nuget\\packages\\microsoft.data.sqlite.core\\9.0.10\\microsoft.data.sqlite.core.9.0.10.nupkg.sha512",

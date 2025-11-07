@@ -1,6 +1,6 @@
-using MiWebAPI.Models;
+using Models;
 
-namespace MiWebAPI.Interface;
+namespace Interface;
 
 interface IPresupuestos
 {

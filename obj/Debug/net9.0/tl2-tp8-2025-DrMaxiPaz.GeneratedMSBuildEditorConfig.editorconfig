@@ -28,6 +28,38 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/CrearPresupuesto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXENyZWFyUHJlc3VwdWVzdG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/EliminarPresupuesto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXEVsaW1pbmFyUHJlc3VwdWVzdG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/MostrarPresupuesto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXE1vc3RyYXJQcmVzdXB1ZXN0by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/AltaProducto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEFsdGFQcm9kdWN0by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/DeleteProducto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXERlbGV0ZVByb2R1Y3RvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/ModificarProducto.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXE1vZGlmaWNhclByb2R1Y3RvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

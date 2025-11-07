@@ -1,12 +1,12 @@
 using Microsoft.Data.Sqlite;
-using MiWebAPI.Models;
-using MiWebAPI.Interface;
+using Models;
+using Interface;
 
-namespace MiWebAPI.Repository;
+namespace Repository;
 
 class PresupuestosRepository : IPresupuestos
 {
-    const string cadenaConeccion = "Data Source=Tienda.db";
+    const string cadenaConeccion = "Data Source=db/Tienda.db";
 
     public void CrearPresupuesto(Presupuestos presupuesto)
     {
@@ -18,13 +18,6 @@ class PresupuestosRepository : IPresupuestos
         comando.Parameters.AddWithValue("@NombreDestinatario", presupuesto.NombreDestinatario);
         comando.Parameters.AddWithValue("@FechaCreacion", presupuesto.FechaCreacion);
         comando.ExecuteNonQuery();
-        /*
-        string sql1 = "Select max(IdPresupuestos) as id from Presupuestos;";
-        using var cmd = new SqliteCommand(sql1, conexion);
-        using var lector = comando.ExecuteReader();
-        lector.Read();
-        presupuesto.IdPresupuesto = Convert.ToInt32(lector["Id"]);
-        comando.ExecuteNonQuery();*/
         conexion.Close();
     }
 
@@ -85,6 +78,7 @@ class PresupuestosRepository : IPresupuestos
         comando.Parameters.AddWithValue("@Cantidad", cantidad);
 
         comando.ExecuteNonQuery();
+        conexion.Close();
     }
 
 
@@ -105,8 +99,10 @@ class PresupuestosRepository : IPresupuestos
                 NombreDestinatario = lector["NombreDestinatario"].ToString(),
                 FechaCreacion = DateOnly.Parse(lector["FechaCreacion"].ToString()),
             };
+            conexion.Close();
             return presupuesto;
         }
+        conexion.Close();
         return null;
     }
 

@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using MiWebAPI.Models;
-using MiWebAPI.Interface;
-using MiWebAPI.Repository;
+using Models;
+using Interface;
+using Repository;
 
-namespace MiWebAPI.Controllers;
+namespace Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class PresupuestosController : ControllerBase
+public class PresupuestosController : Controller
 {
 
     private readonly IPresupuestos datos;
@@ -15,6 +13,22 @@ public class PresupuestosController : ControllerBase
     public PresupuestosController()
     {
         datos = new PresupuestosRepository();
+
+    }
+
+    [HttpGet]
+    public IActionResult Index()
+    {
+        List<Presupuestos> presupuestos = datos.ListarPresupuestos() ?? [];
+        return View(presupuestos);
+    }
+
+
+    [HttpGet]
+    public IActionResult CrearPresupuesto()
+    {
+        
+        return View();
     }
 
     /// <summary>
@@ -23,23 +37,52 @@ public class PresupuestosController : ControllerBase
     /// <param name="nombreDestinatario">nombre del Presupuesto</param>
     /// <param name="fechaCreacion">fecha de creacion del Presupuesto</param>
     /// <returns>Ok o BadRequest</returns>
-    [HttpPost("/api/Presupuesto")]
+    [HttpPost]
     public IActionResult CrearPresupuesto(string nombreDestinatario, DateOnly fechaCreacion)
     {
-        if (string.IsNullOrEmpty(nombreDestinatario)) return BadRequest("El nombre no puede estar vacia...");
-        if (nombreDestinatario.Length > 1000) return BadRequest(" El nombre es muy largo...");
-        if (fechaCreacion > DateOnly.FromDateTime(DateTime.Today)) return BadRequest(" Fecha incorrecta...");
-
-        Presupuestos presupuesto = new(1, nombreDestinatario, fechaCreacion, []);
+        if (string.IsNullOrEmpty(nombreDestinatario))
+        {
+            TempData["ErrorMessage"] = "nombre no puede estar vacio...";
+            return RedirectToAction("Index");
+        }
+        if (nombreDestinatario.Length > 1000)
+        {
+            TempData["ErrorMessage"] = " El nombre es muy largo...";
+            return RedirectToAction("Index");
+        }
+        if (fechaCreacion > DateOnly.FromDateTime(DateTime.Today))
+        {
+            TempData["ErrorMessage"] = " Fecha incorrecta...";
+            return RedirectToAction("Index");
+        }
+        Presupuestos presupuesto = new(nombreDestinatario, fechaCreacion, []);
         if (presupuesto != null)
         {
             datos.CrearPresupuesto(presupuesto);
-            return Ok(" Presupuesto Creado correctamente...");
+            return RedirectToAction("Index");
         }
         else
         {
-            return BadRequest(" No se pudo Crear el Presupuesto...");
+            TempData["ErrorMessage"] = "No se pudo crear el presupuesto...";
+            return RedirectToAction("Index");
         }
+    }
+
+    [HttpGet]
+    public IActionResult AgregarProductoAPresupuesto(int idPresupuesto)
+    {
+        if (idPresupuesto <= 0)
+        {
+            TempData["ErrorMessage"] = " El id no puede ser negativo...";
+            return RedirectToAction("Index");
+        }
+        Presupuestos? presupuesto = datos.ObtenerPresupuestoPorId(idPresupuesto) ?? null;
+        if (presupuesto == null)
+        {
+            TempData["ErrorMessage"] = "el presupuesto no existe...";
+            return RedirectToAction("Index");
+        }
+        return View(presupuesto);
     }
 
     /// <summary>
@@ -49,10 +92,9 @@ public class PresupuestosController : ControllerBase
     /// <param name="idProducto">id del producto a agregar</param>
     /// <param name="cantidad">cantiadad de productos</param>
     /// <returns>Ok o BadRequest</returns>
-    [HttpPost("/api/Presupuesto/{idPresupuesto}")]
-    public IActionResult AgregarProductoAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
+    [HttpPost]
+    public IActionResult AgregarProductoAPresupuestos(int idPresupuesto, int idProducto, int cantidad)
     {
-        if (idPresupuesto < 0 || idProducto < 0) return NotFound(" El id no puede ser negativo...");
         if (cantidad < 0) return NotFound(" La cantidad no puede ser negativa...");
         datos.AgregarProductoAPresupuesto(idPresupuesto, idProducto, cantidad);
         return Ok(" Producto agregado correctamente a presupuesto...");
@@ -63,7 +105,7 @@ public class PresupuestosController : ControllerBase
     /// Devuelve la lista de Presupuestos
     /// </summary>
     /// <returns>ok</returns>
-    [HttpGet("/api/Presupuestos")]
+    [HttpGet]
     public IActionResult GetPresupuestos()
     {
         List<Presupuestos> listaPresupuestos = datos.ListarPresupuestos() ?? [];
@@ -75,26 +117,35 @@ public class PresupuestosController : ControllerBase
     /// </summary>
     /// <param name="id">id del Presupuesto buscado</param>
     /// <returns>Ok o BadRequest</returns>
-    [HttpGet("/api/Presupuestos/{id}")]
+    [HttpGet]
     public IActionResult GetPresupuestosPorId(int id)
     {
-        Presupuestos presupuestos = (datos.ListarPresupuestos() ?? null).Find(p => p.IdPresupuesto == id);
-        if (presupuestos == null) return BadRequest("Presupuesto no encontrada");
+        Presupuestos? presupuestos = (datos.ListarPresupuestos()).Find(p => p.IdPresupuesto == id) ?? null;
+        if (presupuestos == null) return BadRequest("Presupuesto no encontrado");
         return Ok(presupuestos);
     }
 
+    [HttpGet]
+    public IActionResult EliminarPresupuesto(int id)
+    {
+        Presupuestos? presupuesto = datos.ObtenerPresupuestoPorId(id) ?? null;
+        if (presupuesto == null)
+        {
+            TempData["ErrorMessage"] = "el presupuesto no existe...";
+            return RedirectToAction("Index");
+        }
+        return View(presupuesto);
+    }
 
     /// <summary>
     /// Elimina una Presupuestos por su id
     /// </summary>
     /// <param name="id">id de la Presupuestos a eliminar</param>
     /// <returns>Ok o BadRequest</returns>
-    [HttpDelete("/api/Presupuestos")]
-    public IActionResult DeletePresupuestosPorId(int id)
+    [HttpGet]
+    public IActionResult EliminarPresupuestoPorId(int id)
     {
-        Presupuestos presupuestos = datos.ObtenerPresupuestoPorId(id) ?? null;
-        if (presupuestos == null) return NotFound("NO se pudo encontrar el Presupuesto...");
         datos.EliminarPresupuesto(id);
-        return NoContent();
+        return RedirectToAction("Index");
     }
 }

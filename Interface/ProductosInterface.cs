@@ -1,5 +1,5 @@
-using MiWebAPI.Models;
-namespace MiWebAPI.Interface;
+using Models;
+namespace Interface;
 
 interface IProductos
 {

@@ -1,4 +1,4 @@
-namespace MiWebAPI.Models;
+namespace Models;
 
 class Presupuestos
 {
@@ -16,9 +16,8 @@ class Presupuestos
     {
     }
     
-    public Presupuestos(int idPresupuesto, string nombreDestinatario, DateOnly fechaCreacion, List<PresupuestosDetalle> detalle)
+    public Presupuestos(string nombreDestinatario, DateOnly fechaCreacion, List<PresupuestosDetalle> detalle)
     {
-        this.IdPresupuesto = idPresupuesto;
         this.NombreDestinatario = nombreDestinatario;
         this.FechaCreacion = fechaCreacion;
         this.Detalle = detalle;

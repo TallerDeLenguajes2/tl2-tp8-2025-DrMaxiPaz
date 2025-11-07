@@ -1,19 +1,18 @@
 using Microsoft.Data.Sqlite;
-using MiWebAPI.Models;
-using MiWebAPI.Interface;
+using Models;
+using Interface;
 
-namespace MiWebAPI.Repository;
+namespace Repository;
 
 class ProductosRepository : IProductos
 {
-    string cadenaConeccion = "Data Source=Tienda.db";
+    string cadenaConeccion = "Data Source=db/Tienda.db";
     public void CrearProducto(Productos producto)
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
         conexion.Open();
         string sql = "INSERT INTO Productos (Descripcion , Precio) VALUES(@Descripcion , @Precio)";
         using var comando = new SqliteCommand(sql, conexion);
-
         comando.Parameters.Add(new SqliteParameter("@Descripcion", producto.Descripcion));
         comando.Parameters.Add(new SqliteParameter("@Precio", producto.Precio));
         comando.ExecuteNonQuery();
@@ -24,7 +23,7 @@ class ProductosRepository : IProductos
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
         conexion.Open();
-        string sql = "UPDATE Productos SET Descripcion = @Descripcion AND Precio = @Precio WHERE IdProducto = @IdProducto";
+        string sql = "UPDATE Productos SET Descripcion = @Descripcion, Precio = @Precio WHERE IdProducto = @IdProducto";
         using var comando = new SqliteCommand(sql, conexion);
 
         comando.Parameters.AddWithValue("@IdProducto", id);

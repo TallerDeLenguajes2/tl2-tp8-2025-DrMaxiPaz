@@ -1,5 +1,5 @@
 
-namespace MiWebAPI.Models;
+namespace Models;
 
 public class Productos
 {
@@ -11,9 +11,9 @@ public class Productos
     {
     }
 
-    public Productos(int idProducto, string descripcion, int precio)
+    public Productos( string descripcion, int precio)
     {
-        this.idProducto = idProducto;
+        
         this.descripcion = descripcion;
         this.precio = precio;
     }

@@ -1,4 +1,4 @@
-namespace MiWebAPI.Models;
+namespace Models;
 
 class PresupuestosDetalle
 {

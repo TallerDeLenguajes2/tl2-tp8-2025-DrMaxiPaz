@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj": {}
+    "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj": {}
   },
   "projects": {
-    "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj": {
+    "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
+        "projectUniqueName": "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
         "projectName": "tl2-tp8-2025-DrMaxiPaz",
-        "projectPath": "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
+        "projectPath": "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\tl2-tp8-2025-DrMaxiPaz.csproj",
         "packagesPath": "C:\\Users\\maxi0\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\obj\\",
+        "outputPath": "C:\\Users\\maxi0\\Documents\\facultad\\tercer_anio\\2_cuatrimestre\\taller_2\\practica\\tl2-tp8-2025-DrMaxiPaz\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maxi0\\AppData\\Roaming\\NuGet\\NuGet.Config"
