@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Interface;
 using Repository;
+using ViewModels;
 
 namespace Controllers;
 
@@ -27,7 +28,6 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult CrearPresupuesto()
     {
-        
         return View();
     }
 
@@ -38,24 +38,23 @@ public class PresupuestosController : Controller
     /// <param name="fechaCreacion">fecha de creacion del Presupuesto</param>
     /// <returns>Ok o BadRequest</returns>
     [HttpPost]
-    public IActionResult CrearPresupuesto(string nombreDestinatario, DateOnly fechaCreacion)
+    public IActionResult CrearPresupuesto(PresupuestoViewModel PVM)
     {
-        if (string.IsNullOrEmpty(nombreDestinatario))
+        if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = "nombre no puede estar vacio...";
-            return RedirectToAction("Index");
+            return View(PVM);
         }
-        if (nombreDestinatario.Length > 1000)
+        Presupuestos presupuesto = new Presupuestos
         {
-            TempData["ErrorMessage"] = " El nombre es muy largo...";
-            return RedirectToAction("Index");
-        }
-        if (fechaCreacion > DateOnly.FromDateTime(DateTime.Today))
+            NombreDestinatario = PVM.NombreDestinatario,
+            FechaCreacion = PVM.FechaCreacion
+        };
+
+        if (presupuesto.FechaCreacion > DateOnly.FromDateTime(DateTime.Today))
         {
             TempData["ErrorMessage"] = " Fecha incorrecta...";
             return RedirectToAction("Index");
         }
-        Presupuestos presupuesto = new(nombreDestinatario, fechaCreacion, []);
         if (presupuesto != null)
         {
             datos.CrearPresupuesto(presupuesto);
@@ -82,7 +81,13 @@ public class PresupuestosController : Controller
             TempData["ErrorMessage"] = "el presupuesto no existe...";
             return RedirectToAction("Index");
         }
-        return View(presupuesto);
+        PresupuestoViewModel PVM = new PresupuestoViewModel
+        {
+            IdPresupuesto = presupuesto.IdPresupuesto,
+            NombreDestinatario = presupuesto.NombreDestinatario,
+            FechaCreacion = presupuesto.FechaCreacion
+        };
+        return View(PVM);
     }
 
     /// <summary>

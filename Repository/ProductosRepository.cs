@@ -19,14 +19,14 @@ class ProductosRepository : IProductos
         conexion.Close();
     }
 
-    public void ActualizarProducto(int id, Productos producto)
+    public void ActualizarProducto(Productos producto)
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
         conexion.Open();
         string sql = "UPDATE Productos SET Descripcion = @Descripcion, Precio = @Precio WHERE IdProducto = @IdProducto";
         using var comando = new SqliteCommand(sql, conexion);
 
-        comando.Parameters.AddWithValue("@IdProducto", id);
+        comando.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
         comando.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
         comando.Parameters.AddWithValue("@Precio", producto.Precio);
         comando.ExecuteNonQuery();

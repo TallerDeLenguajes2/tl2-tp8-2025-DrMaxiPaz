@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Interface;
 using Repository;
+using ViewModels;
 
 namespace Controllers;
 
@@ -35,25 +36,20 @@ public class ProductosController : Controller
     /// <param name="precio">precio del Producto a crear</param>
     /// <returns>Ok o BadRequest</returns>
     [HttpPost]
-    public IActionResult AltaProducto(string descripcion, int precio)
+    public IActionResult AltaProducto(ProductoViewModel PVM)
     {
-        if (precio <= 0)
+        if (!ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = " El precio no puede ser negativo...";
-            return RedirectToAction("Index");
-        }
-        if (string.IsNullOrEmpty(descripcion))
-        {
-            TempData["ErrorMessage"] = " La descripcion no puede estar vacia...";
-            RedirectToAction("Index");
-        }
-        if (descripcion.Length > 1000)
-        {
-            TempData["ErrorMessage"] = " La descripcion es muy larga...";
-            RedirectToAction("Index");
-        }
+            // Si falla: Devolvemos el ViewModel con los datos y errores a la Vista
+            return View(PVM);
 
-        Productos producto = new(descripcion, precio);
+        }
+        var producto = new Productos
+        {
+            Descripcion = PVM.Descripcion,
+            Precio = PVM.Precio
+        };
+
         if (producto != null)
         {
             datos.CrearProducto(producto);
@@ -66,17 +62,23 @@ public class ProductosController : Controller
         }
     }
 
-    
+
     [HttpGet]
     public IActionResult ModificarProducto(int id)
     {
         Productos? producto = datos.ObtenerProductoPorId(id) ?? null;
-        if (producto == null)
+        ProductoViewModel PVM = new ProductoViewModel
+        {
+            IdProducto = producto.IdProducto,
+            Descripcion = producto.Descripcion,
+            Precio = producto.Precio
+        };
+        if (PVM == null)
         {
             TempData["ErrorMessage"] = "Producto no encontrado";
             return RedirectToAction("Index");
         }
-        return View(producto);
+        return View(PVM);
     }
 
 
@@ -87,14 +89,25 @@ public class ProductosController : Controller
     /// <param name="descripcion">nueva descripcion del Producto a devolver</param>
     /// <returns>Ok o BadRequest</returns>
     [HttpPost]
-    public IActionResult ModificarProducto(Productos producto)
+    public IActionResult ModificarProducto(int id, ProductoViewModel PVM)
     {
-        if (producto.Descripcion.Length > 1000)
+        if (id != PVM.IdProducto)
         {
-            TempData["ErrorMessage"] = "Descripcion demaciado larga...";
-            return RedirectToAction("Index");
+            return NotFound();
         }
-        datos.ActualizarProducto(producto.IdProducto, producto);
+        if (!ModelState.IsValid)
+        {
+            // Si falla: Devolvemos el ViewModel con los datos y errores a la Vista
+            return View(PVM);
+
+        }
+        var producto = new Productos
+        {
+            IdProducto = PVM.IdProducto,
+            Descripcion = PVM.Descripcion,
+            Precio = PVM.Precio
+        };
+        datos.ActualizarProducto(producto);
         return RedirectToAction("Index");
     }
 
@@ -132,12 +145,19 @@ public class ProductosController : Controller
             return RedirectToAction("Index");
         }
         Productos? producto = datos.ObtenerProductoPorId(id) ?? null;
-        if (producto == null)
+        ProductoViewModel PVM = new ProductoViewModel
+        {
+            IdProducto = producto.IdProducto,
+            Descripcion = producto.Descripcion,
+            Precio = producto.Precio
+        };
+
+        if (PVM == null)
         {
             TempData["ErrorMessage"] = "NO se pudo encontrar la Producto...";
             return RedirectToAction("Index");
         }
-        return View(producto);
+        return View(PVM);
     }
 
     /// <summary>
@@ -146,7 +166,7 @@ public class ProductosController : Controller
     /// <param name="id">id de la Producto a eliminar</param>
     /// <returns>Ok o BadRequest</returns>
     [HttpGet]
-    public IActionResult DeleteProductoPorId(int id)
+    public IActionResult DeleteProductoPorId(int  id)
     {
         datos.EliminarProducto(id);
         return RedirectToAction("Index");
