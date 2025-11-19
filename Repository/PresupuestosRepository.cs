@@ -4,10 +4,15 @@ using Interface;
 
 namespace Repository;
 
-class PresupuestosRepository : IPresupuestos
+class PresupuestosRepository : IPresupuestosRepository
 {
-    const string cadenaConeccion = "Data Source=db/Tienda.db";
+    private readonly string cadenaConeccion;
 
+    public PresupuestosRepository()
+    {
+        cadenaConeccion = "Data Source=db/Tienda.db";
+    }
+    
     public void CrearPresupuesto(Presupuestos presupuesto)
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
@@ -43,7 +48,7 @@ class PresupuestosRepository : IPresupuestos
         foreach (Presupuestos presupuesto in presupuestos)
         {
             presupuesto.Detalle = [];
-            string sql1 = "SELECT Cantidad, Descripcion, Precio FROM PresupuestosDetalle INNER JOIN Productos WHERE idPresupuesto = @IdPresupuesto";
+            string sql1 = "SELECT Cantidad, Descripcion, Precio FROM PresupuestosDetalle INNER JOIN Productos using (idProducto) WHERE idPresupuesto = @IdPresupuesto";
             using var comando1 = new SqliteCommand(sql1, conexion);
             comando1.Parameters.Add(new SqliteParameter("@IdPresupuesto", presupuesto.IdPresupuesto));
             using var lector1 = comando1.ExecuteReader();
@@ -81,8 +86,6 @@ class PresupuestosRepository : IPresupuestos
         conexion.Close();
     }
 
-
-
     public Presupuestos ObtenerPresupuestoPorId(int id)
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
@@ -104,6 +107,27 @@ class PresupuestosRepository : IPresupuestos
         }
         conexion.Close();
         return null;
+    }
+
+    public List<PresupuestosDetalle> MostrarDetallePorId(int id){
+        ProductosRepository datos = new ProductosRepository();
+        string queryString=@"SELECT IdProducto, Cantidad FROM PresupuestosDetalle WHERE IdPresupuesto=@id;";
+        List<PresupuestosDetalle> detalles=new List<PresupuestosDetalle>();
+        using(SqliteConnection connection=new SqliteConnection(cadenaConeccion)){
+            connection.Open();
+            SqliteCommand command=new SqliteCommand(queryString, connection);
+            command.Parameters.AddWithValue("@id", id);
+            using(SqliteDataReader reader=command.ExecuteReader()){
+                while(reader.Read()){
+                    Productos producto= datos.ObtenerProductoPorId(Convert.ToInt32(reader["IdProducto"]));
+                    int cantidad=Convert.ToInt32(reader["Cantidad"]);
+                    PresupuestosDetalle detalle= new PresupuestosDetalle(producto, cantidad);
+                    detalles.Add(detalle);
+                }
+            }
+            connection.Close();
+        }
+        return detalles;
     }
 
     public void EliminarPresupuesto(int id)

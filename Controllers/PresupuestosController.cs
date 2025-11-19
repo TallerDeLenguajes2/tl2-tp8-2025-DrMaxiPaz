@@ -3,17 +3,20 @@ using Models;
 using Interface;
 using Repository;
 using ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering; // Necesario para SelectList
 
 namespace Controllers;
 
 public class PresupuestosController : Controller
 {
 
-    private readonly IPresupuestos datos;
+    private readonly IPresupuestosRepository datos;
+    private readonly IProductosRepository repo_produ;
 
     public PresupuestosController()
     {
         datos = new PresupuestosRepository();
+        repo_produ = new ProductosRepository();
 
     }
 
@@ -31,12 +34,6 @@ public class PresupuestosController : Controller
         return View();
     }
 
-    /// <summary>
-    /// Crea una Presupuestos
-    /// </summary>
-    /// <param name="nombreDestinatario">nombre del Presupuesto</param>
-    /// <param name="fechaCreacion">fecha de creacion del Presupuesto</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpPost]
     public IActionResult CrearPresupuesto(PresupuestoViewModel PVM)
     {
@@ -68,66 +65,64 @@ public class PresupuestosController : Controller
     }
 
     [HttpGet]
-    public IActionResult AgregarProductoAPresupuesto(int idPresupuesto)
+    public IActionResult AgregarProductoAPresupuesto(int id)
     {
-        if (idPresupuesto <= 0)
+        /*if (idPresupuesto <= 0)
         {
             TempData["ErrorMessage"] = " El id no puede ser negativo...";
             return RedirectToAction("Index");
-        }
-        Presupuestos? presupuesto = datos.ObtenerPresupuestoPorId(idPresupuesto) ?? null;
+        }*/
+        Presupuestos? presupuesto = datos.ObtenerPresupuestoPorId(id) ?? null;
         if (presupuesto == null)
         {
             TempData["ErrorMessage"] = "el presupuesto no existe...";
             return RedirectToAction("Index");
         }
-        PresupuestoViewModel PVM = new PresupuestoViewModel
+        List<Productos> productos = repo_produ.ListarProductos();
+
+        AgregarProductoViewModel APVM = new AgregarProductoViewModel
         {
             IdPresupuesto = presupuesto.IdPresupuesto,
-            NombreDestinatario = presupuesto.NombreDestinatario,
-            FechaCreacion = presupuesto.FechaCreacion
+            ListaProductos = new SelectList(productos, "IdProducto","Descripcion")
         };
-        return View(PVM);
+        return View(APVM);
     }
 
-    /// <summary>
-    /// Agrega un producto a un presupuesto
-    /// </summary>
-    /// <param name="idPresupuesto">id de la Presupuesto</param>
-    /// <param name="idProducto">id del producto a agregar</param>
-    /// <param name="cantidad">cantiadad de productos</param>
-    /// <returns>Ok o BadRequest</returns>
+
     [HttpPost]
-    public IActionResult AgregarProductoAPresupuestos(int idPresupuesto, int idProducto, int cantidad)
+    public IActionResult AgregarProductoAPresupuestos(AgregarProductoViewModel APVM)
     {
-        if (cantidad < 0) return NotFound(" La cantidad no puede ser negativa...");
-        datos.AgregarProductoAPresupuesto(idPresupuesto, idProducto, cantidad);
-        return Ok(" Producto agregado correctamente a presupuesto...");
+        if (!ModelState.IsValid)
+        {
+            // LÓGICA CRÍTICA DE RECARGA: Si falla la validación,
+            // debemos recargar el SelectList porque se pierde en el POST.
+            var productos = repo_produ.ListarProductos();
+            APVM.ListaProductos = new SelectList(productos, "IdProducto", "Descripcion");
+
+            // Devolvemos el modelo con los errores y el dropdown recargado
+            return View(APVM);
+        }
+        // 2. Si es VÁLIDO: Llamamos al repositorio para guardar la relación
+        datos.AgregarProductoAPresupuesto(APVM.IdPresupuesto, APVM.IdProducto, APVM.Cantidad);
+        // 3. Redirigimos al detalle del presupuesto
+        return RedirectToAction("MostrarPresupuesto", new { id = APVM.IdPresupuesto });
     }
 
-
-    /// <summary>
-    /// Devuelve la lista de Presupuestos
-    /// </summary>
-    /// <returns>ok</returns>
     [HttpGet]
     public IActionResult GetPresupuestos()
     {
+
         List<Presupuestos> listaPresupuestos = datos.ListarPresupuestos() ?? [];
         return Ok(listaPresupuestos);
     }
 
-    /// <summary>
-    /// Devuelve una Presupuestos por su id
-    /// </summary>
-    /// <param name="id">id del Presupuesto buscado</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpGet]
-    public IActionResult GetPresupuestosPorId(int id)
+    public IActionResult MostrarPresupuesto(int id)
     {
-        Presupuestos? presupuestos = (datos.ListarPresupuestos()).Find(p => p.IdPresupuesto == id) ?? null;
-        if (presupuestos == null) return BadRequest("Presupuesto no encontrado");
-        return Ok(presupuestos);
+        List<Presupuestos> list = datos.ListarPresupuestos() ?? [];
+        Presupuestos? presupuesto = list.Find(p => p.IdPresupuesto == id) ?? null;
+        if (presupuesto == null) return BadRequest("Presupuesto no encontrado...");
+        return View(presupuesto);
     }
 
     [HttpGet]
@@ -142,12 +137,7 @@ public class PresupuestosController : Controller
         return View(presupuesto);
     }
 
-    /// <summary>
-    /// Elimina una Presupuestos por su id
-    /// </summary>
-    /// <param name="id">id de la Presupuestos a eliminar</param>
-    /// <returns>Ok o BadRequest</returns>
-    [HttpGet]
+    [HttpPost]
     public IActionResult EliminarPresupuestoPorId(int id)
     {
         datos.EliminarPresupuesto(id);

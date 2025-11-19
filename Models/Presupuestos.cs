@@ -28,7 +28,7 @@ class Presupuestos
         double total = 0;
         foreach (var d in Detalle)
         {
-            total += d.Producto.Precio;
+            total += d.Producto.Precio *d.Cantidad;
         }
         return total;
     }

@@ -33,10 +33,7 @@
                     <td>@presupuesto.IdPresupuesto</td>
                     <td>@presupuesto.FechaCreacion.ToString("dd/MM/yyyy")</td>
                     <td><a asp-controller="Presupuestos" asp-action="MostrarPresupuesto"
-                            asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-info">Ver Detalles</a>
-                        <a asp-controller="Presupuestos" asp-action="AgregarProductoAPresupuesto"
-                            asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-success">Agregar Productos</a>
-                        
+                            asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-info">Ver Detalles</a>                        
                         <a asp-controller="Presupuestos" asp-action="EliminarPresupuesto"
                             asp-route-id="@presupuesto.IdPresupuesto" class="btn btn-danger">Eliminar Presupuesto</a>
 

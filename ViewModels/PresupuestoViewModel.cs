@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering; // Necesario para SelectList
 namespace ViewModels
 {
     public class PresupuestoViewModel
@@ -15,7 +16,8 @@ namespace ViewModels
         [Required(ErrorMessage = "La fecha es obligatoria.")]
         [DataType(DataType.Date)]
         public DateOnly FechaCreacion { get; set; }
+    
+        public SelectList ListaProductos { get; set; }
 
-        // La validación de que la fecha no es futura se hará en el Controlador (ver Etapa 3).
     }
 }

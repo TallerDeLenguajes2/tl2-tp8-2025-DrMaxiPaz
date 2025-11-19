@@ -16,7 +16,7 @@ namespace ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "La cantidad debe ser mayor a cero.")]
         public int Cantidad { get; set; }
 
-        // Propiedad adicional para el Dropdown (no se valida, solo se usa en la Vista)
-        public SelectList ListaProductos { get; set; }
+        // Propiedad adicional para el Dropd own (no se valida, solo se usa en la Vista)
+        public SelectList ListaProductos { get; set; } = new SelectList(new List<string>());
     }
 }

@@ -6,10 +6,9 @@ using ViewModels;
 
 namespace Controllers;
 
-
 public class ProductosController : Controller
 {
-    private readonly IProductos datos;
+    private readonly IProductosRepository datos;
 
     public ProductosController()
     {
@@ -29,12 +28,6 @@ public class ProductosController : Controller
         return View();
     }
 
-    /// <summary>
-    /// Crea una Producto
-    /// </summary>
-    /// <param name="descripcion">descripcion del Producto a crear</param>
-    /// <param name="precio">precio del Producto a crear</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpPost]
     public IActionResult AltaProducto(ProductoViewModel PVM)
     {
@@ -81,13 +74,6 @@ public class ProductosController : Controller
         return View(PVM);
     }
 
-
-    /// <summary>
-    ///  Permite modificar un nombre de un Producto
-    /// </summary>
-    /// <param name="id">id del Producto a modificar</param>
-    /// <param name="descripcion">nueva descripcion del Producto a devolver</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpPost]
     public IActionResult ModificarProducto(int id, ProductoViewModel PVM)
     {
@@ -111,10 +97,6 @@ public class ProductosController : Controller
         return RedirectToAction("Index");
     }
 
-    /// <summary>
-    /// Devuelve la lista de Productos
-    /// </summary>
-    /// <returns>ok</returns>
     [HttpGet]
     public IActionResult GetProductos()
     {
@@ -122,11 +104,6 @@ public class ProductosController : Controller
         return Ok(listaProductos);
     }
 
-    /// <summary>
-    /// Devuelve una Producto por su id
-    /// </summary>
-    /// <param name="id">id del Producto a devolver</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpGet]
     public IActionResult GetProductoPorId(int id)
     {
@@ -160,11 +137,6 @@ public class ProductosController : Controller
         return View(PVM);
     }
 
-    /// <summary>
-    /// Elimina una Producto por su id
-    /// </summary>
-    /// <param name="id">id de la Producto a eliminar</param>
-    /// <returns>Ok o BadRequest</returns>
     [HttpGet]
     public IActionResult DeleteProductoPorId(int  id)
     {

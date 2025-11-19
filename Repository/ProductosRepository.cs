@@ -4,7 +4,7 @@ using Interface;
 
 namespace Repository;
 
-class ProductosRepository : IProductos
+class ProductosRepository : IProductosRepository
 {
     string cadenaConeccion = "Data Source=db/Tienda.db";
     public void CrearProducto(Productos producto)

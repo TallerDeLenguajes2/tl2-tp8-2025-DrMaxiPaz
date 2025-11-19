@@ -1,19 +1,21 @@
 @using Models
 @model Presupuestos
 
-@if(ViewBag.ErrorMessage != null){
+@if (ViewBag.ErrorMessage != null)
+{
     <div class="error-message">
         <p>@ViewBag.ErrorMessage</p>
     </div>
 }
 
-<h3>Detalles del Presupuesto @Model.IdPresupuesto</h3>  
+<h3>Detalles del Presupuesto @Model.IdPresupuesto</h3>
 <div class="container mt-4">
     <div class="mb-4">
         <p>Nombre del Cliente: @Model.NombreDestinatario</p>
         <p>Fecha de Creación: @Model.FechaCreacion.ToString("dd/MM/yyyy")</p>
     </div>
-    @if(Model.Detalle.Count>0){
+    @if (Model.Detalle.Count > 0)
+    {
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -25,17 +27,16 @@
             </thead>
             <tbody>
                 @{
-                    double total = 0;
+                    double total = Model.MontoPresupuesto();
                     foreach (var detalle in Model.Detalle)
                     {
                         double subtotal = detalle.Producto.Precio * detalle.Cantidad;
-                        total += subtotal;
-                    <tr>
-                        <td>@detalle.Producto.Descripcion</td>
-                        <td>@String.Format("{0:N2}", detalle.Producto.Precio)</td>
-                        <td>@detalle.Cantidad</td>
-                        <td>$@String.Format("{0:N2}", subtotal)</td>
-                    </tr>
+                        <tr>
+                            <td>@detalle.Producto.Descripcion</td>
+                            <td>@String.Format("{0:N2}", detalle.Producto.Precio)</td>
+                            <td>@detalle.Cantidad</td>
+                            <td>$@String.Format("{0:N2}", subtotal)</td>
+                        </tr>
                     }
                 }
             </tbody>
@@ -51,5 +52,7 @@
     {
         <h2 class="text-center text-muted">Sin detalles</h2>
     }
+    <a asp-controller="Presupuestos" asp-action="AgregarProductoAPresupuesto" asp-route-id="@Model.IdPresupuesto"
+        class="btn btn-success">Agregar Productos</a>
     <a href="../Index"><button class="btn btn-primary mt-2">Volver</button></a>
 </div>

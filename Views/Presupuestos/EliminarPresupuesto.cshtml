@@ -1,7 +1,8 @@
 @using Models
 @model Presupuestos
 
-@if(ViewBag.ErrorMessage != null){
+@if (ViewBag.ErrorMessage != null)
+{
     <div class="error-message">
         <p>@ViewBag.ErrorMessage</p>
     </div>
@@ -14,8 +15,11 @@
         <p class="text-center">Fecha de Creación: @Model.FechaCreacion.ToString("dd/MM/yyyy")</p>
     </div>
     <h3 class="text-center">¿Desea eliminar el presupuesto?</h3>
-    <div class="text-center">
-        <a asp-controller="Presupuestos" asp-action="EliminarPresupuestoPorId" asp-route-id="@Model.IdPresupuesto" class="btn btn-danger">Eliminar</a>
-        <a asp-controller="Presupuestos" asp-action="Index" class="btn btn-primary">Cancelar</a>
-    </div><div> 
+    <form asp-action="EliminarPresupuesto" action="post">
+        <input type="hidden" asp-for="IdPresupuesto" />
+        <div class="text-center">
+            <input type="submit" value="Eliminar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
 </div>
