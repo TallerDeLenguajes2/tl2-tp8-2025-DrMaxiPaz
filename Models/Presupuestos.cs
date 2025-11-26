@@ -1,6 +1,6 @@
 namespace Models;
 
-class Presupuestos
+public class Presupuestos
 {
     private int idPresupuesto;
     private string nombreDestinatario;

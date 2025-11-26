@@ -10,13 +10,13 @@ namespace Controllers;
 public class PresupuestosController : Controller
 {
 
-    private readonly IPresupuestosRepository datos;
-    private readonly IProductosRepository repo_produ;
+    private readonly IPresupuestoRepository datos;
+    private readonly IProductoRepository repo_produ;
 
     public PresupuestosController()
     {
-        datos = new PresupuestosRepository();
-        repo_produ = new ProductosRepository();
+        datos = new PresupuestoRepository();
+        repo_produ = new ProductoRepository();
 
     }
 
@@ -142,5 +142,10 @@ public class PresupuestosController : Controller
     {
         datos.EliminarPresupuesto(id);
         return RedirectToAction("Index");
+    }
+
+    public IActionResult AccesoDenegado()
+    {
+        return View();
     }
 }

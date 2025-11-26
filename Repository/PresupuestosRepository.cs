@@ -4,13 +4,14 @@ using Interface;
 
 namespace Repository;
 
-class PresupuestosRepository : IPresupuestosRepository
+class PresupuestoRepository : IPresupuestoRepository
 {
     private readonly string cadenaConeccion;
-
-    public PresupuestosRepository()
+    private readonly ProductoRepository productoRepository;
+    public PresupuestoRepository()
     {
         cadenaConeccion = "Data Source=db/Tienda.db";
+        productoRepository = new ProductoRepository();
     }
     
     public void CrearPresupuesto(Presupuestos presupuesto)
@@ -110,7 +111,7 @@ class PresupuestosRepository : IPresupuestosRepository
     }
 
     public List<PresupuestosDetalle> MostrarDetallePorId(int id){
-        ProductosRepository datos = new ProductosRepository();
+        
         string queryString=@"SELECT IdProducto, Cantidad FROM PresupuestosDetalle WHERE IdPresupuesto=@id;";
         List<PresupuestosDetalle> detalles=new List<PresupuestosDetalle>();
         using(SqliteConnection connection=new SqliteConnection(cadenaConeccion)){
@@ -119,7 +120,7 @@ class PresupuestosRepository : IPresupuestosRepository
             command.Parameters.AddWithValue("@id", id);
             using(SqliteDataReader reader=command.ExecuteReader()){
                 while(reader.Read()){
-                    Productos producto= datos.ObtenerProductoPorId(Convert.ToInt32(reader["IdProducto"]));
+                    Productos producto= productoRepository.ObtenerProductoPorId(Convert.ToInt32(reader["IdProducto"]));
                     int cantidad=Convert.ToInt32(reader["Cantidad"]);
                     PresupuestosDetalle detalle= new PresupuestosDetalle(producto, cantidad);
                     detalles.Add(detalle);

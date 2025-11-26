@@ -8,16 +8,24 @@ namespace Controllers;
 
 public class ProductosController : Controller
 {
-    private readonly IProductosRepository datos;
+    private readonly IProductoRepository datos;
+    private IAuthenticationService _authService;
 
-    public ProductosController()
+    public ProductosController(IProductoRepository prodRepo,
+IAuthenticationService authService)
     {
-        datos = new ProductosRepository();
+        //datos = new ProductoRepository();
+        datos = prodRepo;
+        _authService = authService;
     }
+
 
     [HttpGet]
     public IActionResult Index()
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Productos> productos = datos.ListarProductos() ?? [];
         return View(productos);
     }
@@ -25,12 +33,20 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult AltaProducto()
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         return View();
     }
 
     [HttpPost]
     public IActionResult AltaProducto(ProductoViewModel PVM)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         if (!ModelState.IsValid)
         {
             // Si falla: Devolvemos el ViewModel con los datos y errores a la Vista
@@ -59,6 +75,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult ModificarProducto(int id)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         Productos? producto = datos.ObtenerProductoPorId(id) ?? null;
         ProductoViewModel PVM = new ProductoViewModel
         {
@@ -77,6 +97,10 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult ModificarProducto(int id, ProductoViewModel PVM)
     {
+        // Aplicamos el chequeo de seguridad
+ var securityCheck = CheckAdminPermissions();
+ if (securityCheck != null) return securityCheck;
+        
         if (id != PVM.IdProducto)
         {
             return NotFound();
@@ -100,6 +124,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult GetProductos()
     {
+        // Aplicamos el chequeo de seguridad
+ var securityCheck = CheckAdminPermissions();
+ if (securityCheck != null) return securityCheck;
+        
         List<Productos> listaProductos = datos.ListarProductos() ?? [];
         return Ok(listaProductos);
     }
@@ -107,6 +135,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult GetProductoPorId(int id)
     {
+        // Aplicamos el chequeo de seguridad
+ var securityCheck = CheckAdminPermissions();
+ if (securityCheck != null) return securityCheck;
+        
         List<Productos> listaPorductos = datos.ListarProductos();
         Productos? producto = listaPorductos.Find(p => p.IdProducto == id) ?? null;
         if (producto == null) return BadRequest("Producto no encontrada");
@@ -116,6 +148,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult DeleteProducto(int id)
     {
+        // Aplicamos el chequeo de seguridad
+ var securityCheck = CheckAdminPermissions();
+ if (securityCheck != null) return securityCheck;
+        
         if (id <= 0)
         {
             TempData["ErrorMessage"] = "id inexistente...";
@@ -138,9 +174,35 @@ public class ProductosController : Controller
     }
 
     [HttpGet]
-    public IActionResult DeleteProductoPorId(int  id)
+    public IActionResult DeleteProductoPorId(int id)
     {
+        // Aplicamos el chequeo de seguridad
+ var securityCheck = CheckAdminPermissions();
+ if (securityCheck != null) return securityCheck;
+        
         datos.EliminarProducto(id);
         return RedirectToAction("Index");
+    }
+
+    private IActionResult CheckAdminPermissions()
+    {
+        // 1. No logueado? -> vuelve al login
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        // 2. No es Administrador? -> Da Error
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            // Llamamos a AccesoDenegado (llama a la vista correspondiente de Productos)
+            return RedirectToAction(nameof(AccesoDenegado));
+        }
+        return null; // Permiso concedido
+    }
+
+    public IActionResult AccesoDenegado()
+    {
+        return View();
     }
 }

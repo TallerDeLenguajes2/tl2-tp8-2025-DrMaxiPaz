@@ -1,7 +1,7 @@
 using Models;
 namespace Interface;
 
-interface IProductosRepository
+public interface IProductoRepository
 {
     void CrearProducto(Productos producto);
     void ActualizarProducto(Productos producto);

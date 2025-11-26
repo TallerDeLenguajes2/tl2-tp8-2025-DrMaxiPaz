@@ -1,8 +1,7 @@
 using Models;
-
 namespace Interface;
 
-interface IPresupuestosRepository
+public interface IPresupuestoRepository
 {
     void CrearPresupuesto(Presupuestos presupuesto);
     void AgregarProductoAPresupuesto(int idPresupuesto,int idProducto, int cantidad);

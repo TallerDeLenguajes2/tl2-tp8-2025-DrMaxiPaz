@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/AccesoDenegado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXEFjY2Vzb0RlbmVnYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/AgregarProductoAPresupuesto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXEFncmVnYXJQcm9kdWN0b0FQcmVzdXB1ZXN0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Presupuestos/MostrarPresupuesto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlc3VwdWVzdG9zXE1vc3RyYXJQcmVzdXB1ZXN0by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/AccesoDenegado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEFjY2Vzb0RlbmVnYWRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [c:/Users/maxi0/Documents/facultad/tercer_anio/2_cuatrimestre/taller_2/practica/tl2-tp8-2025-DrMaxiPaz/Views/Productos/AltaProducto.cshtml]

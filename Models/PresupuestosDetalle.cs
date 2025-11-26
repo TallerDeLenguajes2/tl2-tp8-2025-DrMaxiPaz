@@ -1,6 +1,6 @@
 namespace Models;
 
-class PresupuestosDetalle
+public class PresupuestosDetalle
 {
     private Productos producto;
     private int cantidad;

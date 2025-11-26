@@ -4,9 +4,13 @@ using Interface;
 
 namespace Repository;
 
-class ProductosRepository : IProductosRepository
+class ProductoRepository : IProductoRepository
 {
-    string cadenaConeccion = "Data Source=db/Tienda.db";
+    private readonly string cadenaConeccion;
+    public ProductoRepository()
+    {
+        cadenaConeccion = "Data Source=db/Tienda.db";
+    }
     public void CrearProducto(Productos producto)
     {
         using var conexion = new SqliteConnection(cadenaConeccion);
